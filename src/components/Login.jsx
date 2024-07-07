@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ const Login = () => {
         email,
         password,
       });
-      // Handle login success (store token, redirect, etc.)
       localStorage.setItem('token', response.data.token);
       alert('Logged in successfully!');
     } catch (err) {
@@ -22,38 +22,38 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 px-4">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">Email:</label>
-          <input 
-            type="email" 
-            id="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            className="w-full p-2 border border-gray-300 rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700">Wachtwoord:</label>
-          <input 
-            type="password" 
-            id="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            className="w-full p-2 border border-gray-300 rounded-lg"
-          />
-        </div>
-        <button 
-          type="submit" 
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300"
-        >
-          Login
-        </button>
-      </form>
-    </div>
+    <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100 mt-4">
+      <div className="bg-white p-4 rounded-lg shadow-lg w-100" style={{ maxWidth: '350px' }}>
+        <h2 className="text-2xl font-bold mb-4 text-center text-green-600">Login</h2>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="p-2 border border-gray-300 rounded-lg"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-2 border border-gray-300 rounded-lg"
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 w-100 transition-colors duration-300"
+          >
+            Sign In
+          </Button>
+        </Form>
+      </div>
+    </Container>
   );
 };
 

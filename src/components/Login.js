@@ -1,39 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
+        email,
+        password,
+      });
+      // Handle login success (store token, redirect, etc.)
+      localStorage.setItem('token', response.data.token);
+      alert('Logged in successfully!');
+    } catch (err) {
+      setError('Invalid login credentials');
+    }
+  };
+
   return (
-    <div className="container mx-auto">
-      <form className="w-full max-w-sm">
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-email">
-              Email
-            </label>
-          </div>
-          <div className="md:w-2/3">
-            <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-email" type="email" />
-          </div>
-        </div>
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-              Password
-            </label>
-          </div>
-          <div className="md:w-2/3">
-            <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="password" />
-          </div>
-        </div>
-        <div className="md:flex md:items-center">
-          <div className="md:w-1/3"></div>
-          <div className="md:w-2/3">
-            <button className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-              Sign In
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+    <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-100 mt-5" style={{ maxWidth: '400px' }}>
+        <h2 className="text-2xl font-bold mb-4 text-center text-green-600">Login</h2>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-4">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-lg"
+            />
+          </Form.Group>
+          <Form.Group className="mb-4">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-lg"
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 w-100 transition-colors duration-300"
+          >
+            Sign In
+          </Button>
+        </Form>
+      </div>
+    </Container>
   );
 };
 

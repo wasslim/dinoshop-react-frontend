@@ -1,6 +1,8 @@
+// src/contexts/CartContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import Client from '../shopifyConfig';
 import Cart from '../components/Cart';
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
@@ -82,8 +84,51 @@ export const CartProvider = ({ children }) => {
 
   const cartQuantity = cart?.lineItems?.reduce((total, item) => total + item.quantity, 0) || 0;
 
+  const createCheckout = async () => {
+    try {
+      const checkout = await Client.checkout.create();
+      return checkout;
+    } catch (error) {
+      console.error('Error creating checkout:', error);
+    }
+  };
+
+  const addLineItemsToCheckout = async (checkoutId, lineItems) => {
+    try {
+      const updatedCheckout = await Client.checkout.addLineItems(checkoutId, lineItems);
+      return updatedCheckout;
+    } catch (error) {
+      console.error('Error adding line items to checkout:', error);
+    }
+  };
+
+  const proceedToCheckout = async () => {
+    try {
+      const checkout = await createCheckout();
+      const lineItems = cart.lineItems.map(item => ({
+        variantId: item.variant.id,
+        quantity: item.quantity
+      }));
+      const updatedCheckout = await addLineItemsToCheckout(checkout.id, lineItems);
+      window.location.href = updatedCheckout.webUrl; // Redirect to Shopify checkout
+    } catch (error) {
+      console.error('Error proceeding to checkout:', error);
+    }
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeItem, loading, isCartOpen, openCart, closeCart, cartQuantity }}>
+    <CartContext.Provider value={{
+      cart,
+      addToCart,
+      updateQuantity,
+      removeItem,
+      loading,
+      isCartOpen,
+      openCart,
+      closeCart,
+      cartQuantity,
+      proceedToCheckout
+    }}>
       {children}
       <Cart />
     </CartContext.Provider>

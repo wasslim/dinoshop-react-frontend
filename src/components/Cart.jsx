@@ -1,3 +1,4 @@
+// src/components/Cart.jsx
 import React from 'react';
 import { Offcanvas, Stack, Button } from 'react-bootstrap';
 import { useCart } from '../contexts/CartContext';
@@ -35,14 +36,13 @@ const CartItem = ({ item, updateQuantity, removeItem }) => (
       </div>
     </div>
     <div className="text-end ms-3">
-    <span>{formatCurrency(item.variant.price.amount)}</span>
-
+      <span>{formatCurrency(item.variant.price.amount)}</span>
     </div>
   </div>
 );
 
 const Cart = () => {
-  const { cart, isCartOpen, closeCart, updateQuantity, removeItem } = useCart();
+  const { cart, isCartOpen, closeCart, updateQuantity, removeItem, proceedToCheckout } = useCart();
 
   if (!cart) {
     return <div>Loading cart...</div>;
@@ -66,6 +66,9 @@ const Cart = () => {
           <div className="ms-auto fw-bold fs-5">
             Total: {formatCurrency(cart.totalPrice.amount)}
           </div>
+          <Button variant="primary" onClick={proceedToCheckout}>
+            Proceed to Checkout
+          </Button>
         </Stack>
       </Offcanvas.Body>
     </Offcanvas>

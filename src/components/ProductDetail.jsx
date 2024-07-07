@@ -32,7 +32,7 @@ const ProductDetail = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="d-flex justify-content-center align-items-center container mx-auto mt-10 px-4">
+    <div className="container mx-auto mt-10 px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex justify-center items-center">
           <img
@@ -48,7 +48,6 @@ const ProductDetail = () => {
             {formatCurrency(product.variants[0].price.amount)}
           </p>
           <button
-          
             onClick={() => addToCart(product.variants[0].id, 1)}
             className="bg-blue-500 text-white px-4 py-2 rounded shadow-lg hover:bg-blue-700 transition-colors"
           >
