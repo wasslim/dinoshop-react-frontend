@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,38 +21,39 @@ const Login = () => {
   };
 
   return (
-    <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100 mt-4">
-      <div className="bg-white p-4 rounded-lg shadow-lg w-100" style={{ maxWidth: '350px' }}>
-        <h2 className="text-2xl font-bold mb-4 text-center text-green-600">Login</h2>
-        {error && <Alert variant="danger">{error}</Alert>}
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Email:</Form.Label>
-            <Form.Control
+    <div className="flex items-center justify-center min-h-screen ">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold mb-6 text-center text-green-600">Login</h2>
+        {error && <div className="mb-4 text-red-600">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium text-gray-700">Email:</label>
+            <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Password:</Form.Label>
-            <Form.Control
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium text-gray-700">Password:</label>
+            <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-          </Form.Group>
-          <Button
+          </div>
+          <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 w-100 transition-colors duration-300"
+            style={{ backgroundColor: '#274c02' }}
+            className="w-full px-4 py-2 text-white rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300"
           >
             Sign In
-          </Button>
-        </Form>
+          </button>
+        </form>
       </div>
-    </Container>
+    </div>
   );
 };
 

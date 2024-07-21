@@ -1,4 +1,3 @@
-// src/components/Cart.jsx
 import React from 'react';
 import { Offcanvas, Stack, Button } from 'react-bootstrap';
 import { useCart } from '../contexts/CartContext';
@@ -6,9 +5,18 @@ import { formatCurrency } from '../utilities/formatCurrency';
 
 const CartItem = ({ item, updateQuantity, removeItem }) => (
   <div className="d-flex align-items-center">
-    <img src={item.variant.image.src} alt={item.title} className="w-25 rounded-lg" />
+    {item.variant.image && (
+      <img src={item.variant.image.src} alt={item.title} className="w-25 rounded-lg" />
+    )}
     <div className="ms-3 flex-grow-1">
       <h5 className="mb-1">{item.title}</h5>
+      {item.variant.selectedOptions && item.variant.selectedOptions.length > 0 && (
+        <p className="mb-1">
+          {item.variant.selectedOptions.map(option => (
+            <span key={option.name}>{option.name}: {option.value}</span>
+          )).reduce((prev, curr) => [prev, ' ', curr])}
+        </p>
+      )}
       <div className="d-flex align-items-center">
         <Button
           variant="outline-primary"
@@ -31,13 +39,15 @@ const CartItem = ({ item, updateQuantity, removeItem }) => (
           className="ms-3"
           onClick={() => removeItem(item.id)}
         >
-          Remove
+          Verwijder
         </Button>
       </div>
     </div>
-    <div className="text-end ms-3">
-      <span>{formatCurrency(item.variant.price.amount)}</span>
-    </div>
+    {item.variant && (
+      <div className="text-end ms-3">
+        <span>{formatCurrency(item.variant.price.amount)}</span>
+      </div>
+    )}
   </div>
 );
 
@@ -51,7 +61,7 @@ const Cart = () => {
   return (
     <Offcanvas show={isCartOpen} onHide={closeCart} placement="end">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Your Cart</Offcanvas.Title>
+        <Offcanvas.Title>Winkelwagen</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Stack gap={3}>
@@ -67,7 +77,7 @@ const Cart = () => {
             Total: {formatCurrency(cart.totalPrice.amount)}
           </div>
           <Button variant="primary" onClick={proceedToCheckout}>
-            Proceed to Checkout
+            Ga naar checkout
           </Button>
         </Stack>
       </Offcanvas.Body>

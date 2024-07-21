@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Index from './components/Index';
+import Hompage from './components/Homepage.jsx';
 import Products from './components/Products';
 import CustomNavbar from './components/Navbar';  // Ensure this is the correct import
 import ProductDetail from './components/ProductDetail';
@@ -17,7 +17,7 @@ function App() {
         <div className="App">
           <CustomNavbar />
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Hompage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />

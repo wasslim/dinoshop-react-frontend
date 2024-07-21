@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import client from "../shopifyConfig";
 import { formatCurrency } from "../utilities/formatCurrency";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Products = () => {
@@ -14,25 +13,30 @@ const Products = () => {
   }, []);
 
   return (
-    <Container className="mt-10 px-4">
-      <Row>
+    <div className="container mx-auto mt-10 px-4">
+      <div className="flex flex-wrap -mx-4">
         {products.map((product) => (
-          <Col key={product.id} xs={12} md={6} lg={4} className="mb-4">
-            <Card className="shadow-lg">
-              <Card.Img variant="top" src={product.images[0].src} alt={product.title} />
-              <Card.Body className="text-center">
-                <Card.Title>{product.title}</Card.Title>
-                <Card.Text>{product.description}</Card.Text>
-                <Card.Text>{formatCurrency(product.variants[0].price.amount)}</Card.Text>
+          <div key={product.id} className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+            <div className="bg-white border border-darkbeige rounded-lg overflow-hidden shadow-lg transform transition-transform duration-200 hover:-translate-y-2">
+              <img
+                src={product.images[0].src}
+                alt={product.title}
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-6 text-center">
+                <h3 className="text-darkgreen font-norwester text-xl mb-2">{product.title}</h3>
+                <p className="text-darkbeige font-bold mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
                 <Link to={`/product/${encodeURIComponent(product.id)}`}>
-                  <Button variant="primary">Buy Now</Button>
+                  <button className="bg-darkgreen text-white py-2 px-4 rounded hover:bg-green transition-colors duration-200">
+                    Buy Now
+                  </button>
                 </Link>
-              </Card.Body>
-            </Card>
-          </Col>
+              </div>
+            </div>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 
