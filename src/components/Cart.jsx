@@ -22,6 +22,8 @@ const CartItem = ({ item, updateQuantity, removeItem }) => (
           variant="outline-primary"
           size="sm"
           onClick={() => updateQuantity(item.id, item.quantity - 1)}
+          style={{ borderColor: "#274c02", color: "#274c02" }}
+          className="hover-none"
         >
           -
         </Button>
@@ -30,14 +32,17 @@ const CartItem = ({ item, updateQuantity, removeItem }) => (
           variant="outline-primary"
           size="sm"
           onClick={() => updateQuantity(item.id, item.quantity + 1)}
+          style={{ borderColor: "#274c02", color: "#274c02" }}
+          className="hover-none"
         >
           +
         </Button>
         <Button
           variant="outline-danger"
           size="sm"
-          className="ms-3"
+          className="ms-3 hover-none"
           onClick={() => removeItem(item.id)}
+          style={{ borderColor: "#e3342f", color: "#e3342f" }}
         >
           Verwijder
         </Button>
@@ -76,7 +81,10 @@ const Cart = () => {
           <div className="ms-auto fw-bold fs-5">
             Total: {formatCurrency(cart.totalPrice.amount)}
           </div>
-          <Button variant="primary" onClick={proceedToCheckout}>
+          <Button
+            onClick={proceedToCheckout}
+            style={{ backgroundColor: "#274c02", color: "#ffffff" }}
+          >
             Ga naar checkout
           </Button>
         </Stack>

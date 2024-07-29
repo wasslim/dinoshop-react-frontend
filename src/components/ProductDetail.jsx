@@ -4,10 +4,13 @@ import { useCart } from "../contexts/CartContext";
 import Client from "../shopifyConfig";
 import { formatCurrency } from "../utilities/formatCurrency";
 import Alert from './Alert';
+import parse from 'html-react-parser';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import the carousel styles
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const { addToCart } = useCart();
+  const { addToCart, openCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,13 +56,21 @@ const ProductDetail = () => {
 
     if (variant) {
       addToCart(variant.id, 1);
-      setAlertMessage("Added to cart successfully!");
+      setAlertMessage("Toegevoegd aan winkelwagen!");
+      openCart();
     } else if (product.variants.length > 1) {
-      setAlertMessage("Selected variant is not available");
+      setAlertMessage("De gekozen combinatie is niet beschikbaar kies een andere maat of een ander kleur!");
     } else {
       addToCart(product.variants[0].id, 1);
-      setAlertMessage("Added to cart successfully!");
+      setAlertMessage("Toegevoegd aan winkelwagen!");
+      openCart();
     }
+  };
+
+  const colorMap = {
+    "Beige": "#f5f5dc",
+    "Groen": "#274c02",
+    "Wit": "#ffffff"
   };
 
   const colors = [
@@ -78,35 +89,51 @@ const ProductDetail = () => {
     ),
   ];
 
+  const filteredImages = selectedColor
+    ? product.images.filter(image => image.src.toLowerCase().includes(selectedColor.toLowerCase()))
+    : product.images;
+
+  const handleColorClick = (color) => {
+    if (selectedColor === color) {
+      setSelectedColor(""); // Unselect the color to show all images
+    } else {
+      setSelectedColor(color);
+    }
+  };
+
   return (
     <div className="container mx-auto mt-10 px-4">
       {alertMessage && <Alert message={alertMessage} type="error" />}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="flex justify-center items-center">
-          <img
-            src={product.images[0].src}
-            alt={product.title}
-            className="max-h-96 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
-          />
+        <div className="flex flex-col items-center">
+          <Carousel showThumbs={true} infiniteLoop={true} autoPlay={true} interval={5000} showStatus={false}>
+            {filteredImages.map((image, index) => (
+              <div key={index}>
+                <img src={image.src} alt={product.title} className="rounded-lg shadow-lg" />
+              </div>
+            ))}
+          </Carousel>
         </div>
         <div className="p-6 bg-white rounded-lg shadow-lg">
           <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
-          <p className="text-lg mb-4">{product.description}</p>
+          <div className="text-lg mb-4">
+            {parse(product.descriptionHtml || product.description)}
+          </div>
           <p className="text-2xl font-bold mb-4 text-green-500">
             {formatCurrency(product.variants[0].price.amount)}
           </p>
           {colors.length > 0 && (
             <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Select Color</h3>
+              <h3 className="text-xl font-semibold mb-2">Selecteer kleur</h3>
               <div className="flex space-x-2">
                 {colors.map((color) => (
                   <button
                     key={color}
-                    onClick={() => setSelectedColor(color)}
+                    onClick={() => handleColorClick(color)}
                     className={`w-8 h-8 rounded-full border-2 ${
                       selectedColor === color ? "border-darkgreen" : "border-gray-300"
                     }`}
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: colorMap[color] }}
                   ></button>
                 ))}
               </div>
@@ -114,7 +141,7 @@ const ProductDetail = () => {
           )}
           {sizes.length > 0 && (
             <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Select Size</h3>
+              <h3 className="text-xl font-semibold mb-2">Selecteer maat</h3>
               <div className="flex space-x-2">
                 {sizes.map((size) => (
                   <button

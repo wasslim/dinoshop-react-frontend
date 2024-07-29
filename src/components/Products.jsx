@@ -28,7 +28,7 @@ const Products = () => {
                 <p className="text-darkbeige font-bold mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
                 <Link to={`/product/${encodeURIComponent(product.id)}`}>
                   <button className="bg-darkgreen text-white py-2 px-4 rounded hover:bg-green transition-colors duration-200">
-                    Buy Now
+                    Koop nu
                   </button>
                 </Link>
               </div>

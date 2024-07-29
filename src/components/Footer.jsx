@@ -15,6 +15,9 @@ const Footer = () => {
             <Button variant="link" href="https://www.instagram.com/dino_bier/" target="_blank" className="text-dark p-0 mx-2">
               <FaInstagram size={24} />
             </Button>
+            <Button variant="link" href="https://www.facebook.com/profile.php?id=100092698125201" target="_blank" className="text-dark p-0 mx-2">
+              <FaFacebook size={24} />
+            </Button>
           </Col>
         </Row>
       </Container>
