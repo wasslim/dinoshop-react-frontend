@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import client from '../../shopifyConfig';
 import { Link } from 'react-router-dom';
+import { formatCurrency } from '../../utilities/formatCurrency';
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     client.product.fetchAll().then((fetchedProducts) => {
-      setProducts(fetchedProducts.slice(0, 2)); // Display only 3 featured products
+      setProducts(fetchedProducts.slice(0,2)); // Display only 3 featured products
     });
   }, []);
 
@@ -26,7 +27,7 @@ const FeaturedProducts = () => {
                 />
                 <div className="p-6 text-center">
                   <h3 className="text-gray-900 font-bold text-xl mb-2">{product.title}</h3>
-                  <p className="text-gray-600 mb-4">{product.variants[0].price.amount} €</p>
+                  <p className="text-gray-600 mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
                   <Link to={`/product/${encodeURIComponent(product.id)}`}>
                     <button className="bg-darkgreen text-white px-4 py-2 rounded-lg hover:bg-green transition-colors duration-300">
                       Koop Nu
