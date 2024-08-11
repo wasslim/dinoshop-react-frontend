@@ -13,7 +13,7 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-10 px-4 h-8 flex flex-col">
+    <div className="container mx-auto mt-10 px-4 h-6 flex flex-col">
       <div className="flex flex-wrap -mx-4 flex-grow">
         {products.map((product) => {
           const isOutOfStock = !product.variants.some((variant) => variant.available);
@@ -28,7 +28,7 @@ const Products = () => {
                 />
                 <div className="p-6 text-center flex-grow">
                   <h3 className="text-darkgreen font-bold text-xl mb-2">{product.title}</h3>
-                  <p className="text-darkgreen font-bold mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
+                  <p className="text-darkgreen font-bold text-lg mb-2">{formatCurrency(product.variants[0].price.amount)}</p>
                   {isOutOfStock && (
                     <p className="text-red-500 font-bold text-sm mb-2 ">Uitverkocht</p>
                   )}
