@@ -129,7 +129,7 @@ const ProductDetail = () => {
             {formatCurrency(product.variants[0].price.amount)}
           </p>
           {isOutOfStock ? (
-            <p className="text-red-500 text-lg mb-4">
+            <p className="text-red-500 font-bold text-lg mb-4">
               Er zijn geen {product.title} meer in stock. Kom later terug!
             </p>
           ) : (
