@@ -17,6 +17,7 @@ const ProductDetail = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [isOutOfStock, setIsOutOfStock] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -24,6 +25,11 @@ const ProductDetail = () => {
       try {
         const fetchedProduct = await Client.product.fetch(id);
         setProduct(fetchedProduct);
+
+        // Check if the product or any variants are available
+        const isAvailable = fetchedProduct.variants.some(variant => variant.available);
+        setIsOutOfStock(!isAvailable);
+
         setLoading(false);
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -122,48 +128,59 @@ const ProductDetail = () => {
           <p className="text-2xl font-bold mb-4 text-green-500">
             {formatCurrency(product.variants[0].price.amount)}
           </p>
-          {colors.length > 0 && (
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Selecteer kleur</h3>
-              <div className="flex space-x-2">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => handleColorClick(color)}
-                    className={`w-8 h-8 rounded-full border-2 ${
-                      selectedColor === color ? "border-darkgreen" : "border-gray-300"
-                    }`}
-                    style={{ backgroundColor: colorMap[color] }}
-                  ></button>
-                ))}
-              </div>
-            </div>
+          {isOutOfStock ? (
+            <p className="text-red-500 text-lg mb-4">
+              Er zijn geen {product.title} meer in stock. Kom later terug!
+            </p>
+          ) : (
+            <>
+              {colors.length > 0 && (
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold mb-2">Selecteer kleur</h3>
+                  <div className="flex space-x-2">
+                    {colors.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => handleColorClick(color)}
+                        className={`w-8 h-8 rounded-full border-2 ${
+                          selectedColor === color ? "border-darkgreen" : "border-gray-300"
+                        }`}
+                        style={{ backgroundColor: colorMap[color] }}
+                      ></button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {sizes.length > 0 && (
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold mb-2">Selecteer maat</h3>
+                  <div className="flex space-x-2">
+                    {sizes.map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-2 rounded-lg border-2 ${
+                          selectedSize === size ? "border-darkgreen" : "border-gray-300"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                style={{ backgroundColor: isOutOfStock ? "#ccc" : "#274c02" }}
+                className={`text-white px-6 py-3 rounded-lg shadow-lg transition-colors ${
+                  isOutOfStock ? "cursor-not-allowed" : ""
+                }`}
+              >
+                Voeg toe aan winkelwagen
+              </button>
+            </>
           )}
-          {sizes.length > 0 && (
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Selecteer maat</h3>
-              <div className="flex space-x-2">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded-lg border-2 ${
-                      selectedSize === size ? "border-darkgreen" : "border-gray-300"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          <button
-            onClick={handleAddToCart}
-            style={{ backgroundColor: "#274c02" }}
-            className="text-white px-6 py-3 rounded-lg shadow-lg transition-colors"
-          >
-            Voeg toe aan winkelwagen
-          </button>
         </div>
       </div>
     </div>
