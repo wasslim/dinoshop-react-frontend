@@ -8,6 +8,11 @@ const About = () => {
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_BASE_URL;
+    fetch(`${apiUrl}/test-cors`)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
     fetch(`${apiUrl}/about/fetch_about`)
       .then((response) => response.json())
       .then((data) => {

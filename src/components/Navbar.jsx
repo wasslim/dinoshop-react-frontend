@@ -6,7 +6,7 @@ import { useCart } from "../contexts/CartContext";
 const CustomNavbar = () => {
   const [logo, setLogo] = useState("");
   const { openCart, cartQuantity } = useCart();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const CustomNavbar = () => {
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  });
 
   return (
     <nav className="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
@@ -71,23 +71,6 @@ const CustomNavbar = () => {
               {cartQuantity}
             </span>
           </button>
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white hover:border-gray-300 focus:border-gray-300"
-            >
-              <svg fill="#19431e" height="24" width="24" viewBox="0 0 512 512">
-                <circle cx="256" cy="114.526" r="114.526"></circle>
-                <path d="M256,256c-111.619,0-202.105,90.487-202.105,202.105c0,29.765,24.13,53.895,53.895,53.895h296.421 c29.765,0,53.895-24.13,53.895-53.895C458.105,346.487,367.619,256,256,256z"></path>
-              </svg>
-            </button>
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                <Link to="/login" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Login</Link>
-                <Link to="/register" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Registreer</Link>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </nav>
