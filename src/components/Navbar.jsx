@@ -47,11 +47,12 @@ const CustomNavbar = () => {
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="flex justify-center">
-            <img
-              src={logo}
-              alt="Logo"
-              className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110"
-            />
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110 hidden md:block"
+          />
+
           </Link>
         </div>
         <div className="flex items-center space-x-4">
