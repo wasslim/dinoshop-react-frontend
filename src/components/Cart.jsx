@@ -9,14 +9,21 @@ const CartItem = ({ item, updateQuantity, removeItem }) => (
       <img src={item.variant.image.src} alt={item.title} className="w-25 rounded-lg" />
     )}
     <div className="ms-3 flex-grow-1">
-      <h5 className="mb-1">{item.title}</h5>
+      {/* Render the product title */}
+      {item.title && <h5 className="mb-1">{item.title}</h5>}
+      
+      {/* Render selected options only if they exist and are not "Default Title" */}
       {item.variant.selectedOptions && item.variant.selectedOptions.length > 0 && (
         <p className="mb-1">
-          {item.variant.selectedOptions.map(option => (
-            <span key={option.name}>{option.name}: {option.value}</span>
-          )).reduce((prev, curr) => [prev, ' ', curr])}
+          {item.variant.selectedOptions
+            .filter(option => option.value && option.value !== "Default Title")
+            .map(option => (
+              <span key={option.name}>{option.name}: {option.value}</span>
+            ))
+            .reduce((prev, curr) => [prev, ' ', curr], null)}
         </p>
       )}
+
       <div className="d-flex align-items-center">
         <Button
           variant="outline-primary"
