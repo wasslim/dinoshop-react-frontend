@@ -1,4 +1,8 @@
 const AboutSection = () => {
+
+const handleButtonClick = () => {
+    navigate('/about');
+  };
     return (
       <div className="container mx-auto my-20 px-4">
         <div className="flex flex-wrap">
@@ -11,9 +15,13 @@ const AboutSection = () => {
               Exact één jaar geleden besloot Stijn om zijn passie voor bier om te zetten in een fysiek product...
               {/* Shortened for brevity */}
             </p>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300">
-              Learn More
-            </button>
+           <button
+                onClick={handleButtonClick}
+                style={{ backgroundColor: '#274c02' }}
+                className="text-white px-6 py-3 rounded-lg shadow-lg transition-colors"
+              >
+                Lees meer
+              </button>
           </div>
         </div>
       </div>
