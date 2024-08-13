@@ -1,7 +1,7 @@
-// src/contexts/CartContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import Client from '../shopifyConfig';
 import Cart from '../components/Cart';
+import Alert from '../components/Alert'; // Import the Alert component
 
 const CartContext = createContext();
 
@@ -9,6 +9,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [alert, setAlert] = useState(null); // State for managing alert messages
 
   useEffect(() => {
     const initializeCart = async () => {
@@ -18,7 +19,7 @@ export const CartProvider = ({ children }) => {
           const fetchedCart = await Client.checkout.fetch(savedCartId);
           setCart(fetchedCart);
         } catch (error) {
-          console.error('Error fetching cart:', error);
+          setAlert({ message: 'Error fetching cart. Creating a new one.', type: 'error' });
           const newCart = await Client.checkout.create();
           localStorage.setItem('shopify_cart_id', newCart.id);
           setCart(newCart);
@@ -47,7 +48,7 @@ export const CartProvider = ({ children }) => {
       setCart(updatedCart);
       localStorage.setItem('shopify_cart_id', updatedCart.id);
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      setAlert({ message: 'Error adding item to cart.', type: 'error' });
     }
   };
 
@@ -64,7 +65,7 @@ export const CartProvider = ({ children }) => {
       setCart(updatedCart);
       localStorage.setItem('shopify_cart_id', updatedCart.id);
     } catch (error) {
-      console.error('Error updating cart item quantity:', error);
+      setAlert({ message: 'Error updating item quantity.', type: 'error' });
     }
   };
 
@@ -75,7 +76,7 @@ export const CartProvider = ({ children }) => {
       setCart(updatedCart);
       localStorage.setItem('shopify_cart_id', updatedCart.id);
     } catch (error) {
-      console.error('Error removing item from cart:', error);
+      setAlert({ message: 'Error removing item from cart.', type: 'error' });
     }
   };
 
@@ -89,7 +90,7 @@ export const CartProvider = ({ children }) => {
       const checkout = await Client.checkout.create();
       return checkout;
     } catch (error) {
-      console.error('Error creating checkout:', error);
+      setAlert({ message: 'Error creating checkout.', type: 'error' });
     }
   };
 
@@ -98,7 +99,7 @@ export const CartProvider = ({ children }) => {
       const updatedCheckout = await Client.checkout.addLineItems(checkoutId, lineItems);
       return updatedCheckout;
     } catch (error) {
-      console.error('Error adding line items to checkout:', error);
+      setAlert({ message: 'Error adding items to checkout.', type: 'error' });
     }
   };
 
@@ -112,7 +113,7 @@ export const CartProvider = ({ children }) => {
       const updatedCheckout = await addLineItemsToCheckout(checkout.id, lineItems);
       window.location.href = updatedCheckout.webUrl; // Redirect to Shopify checkout
     } catch (error) {
-      console.error('Error proceeding to checkout:', error);
+      setAlert({ message: 'Error proceeding to checkout.', type: 'error' });
     }
   };
 
@@ -131,6 +132,7 @@ export const CartProvider = ({ children }) => {
     }}>
       {children}
       <Cart />
+      {alert && <Alert message={alert.message} type={alert.type} />} {/* Display alert */}
     </CartContext.Provider>
   );
 };
