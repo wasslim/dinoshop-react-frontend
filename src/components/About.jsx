@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const About = () => {
-  const [imageUrl, setImageUrl] = useState('');
   const navigate = useNavigate();
+  
 
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL;
-    fetch(`${apiUrl}/about/fetch_about`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.error('Error:', data.error);
-        } else {
-          setImageUrl(data.stijn_image_url);
-        }
-      })
-      .catch((error) => console.error('Error:', error));
-  }, []);
+  const imageUrl = `${process.env.PUBLIC_URL}/images/groepsfoto.jpg`; 
 
   const handleButtonClick = () => {
     navigate('/products');

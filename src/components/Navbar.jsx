@@ -1,27 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useCart } from "../contexts/CartContext";
 
+
 const CustomNavbar = () => {
-  const [logo, setLogo] = useState("");
   const { openCart, cartQuantity } = useCart();
   const [setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL;
-    axios
-      .get(`${apiUrl}/logo/fetch_logo`)
-      .then((response) => {
-        if (response.data.error) {
-          console.error("Error:", response.data.error);
-        } else {
-          setLogo(response.data.logo_image_url);
-        }
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);
 
   const handleDocumentClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -36,6 +21,8 @@ const CustomNavbar = () => {
     };
   });
 
+  const logo = `${process.env.PUBLIC_URL}/images/logo.png`; 
+
   return (
     <nav className="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 relative">
@@ -43,16 +30,15 @@ const CustomNavbar = () => {
           <Link to="/" className="text-darkgreen font-bold text-lg">Home</Link>
           <Link to="/products" className="text-darkgreen font-bold text-lg">Assortiment</Link>
           <Link to="/about" className="text-darkgreen font-bold text-lg">Over ons</Link>
-          {/* <Link to="/contact" className="text-darkgreen font-bold text-lg">Contact</Link> */}
+          <Link to="/contact" className="text-darkgreen font-bold text-lg">Contact</Link>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="flex justify-center">
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110 hidden md:block"
-          />
-
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110 hidden md:block"
+            />
           </Link>
         </div>
         <div className="flex items-center space-x-4">

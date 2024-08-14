@@ -9,6 +9,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
+import ContactForm from './components/Contact.jsx';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<ContactForm />} />
               <Route path="/products" element={<Products />} />
               <Route path="/product/:id" element={<ProductDetail />} />
             </Routes>

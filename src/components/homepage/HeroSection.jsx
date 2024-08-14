@@ -1,24 +1,14 @@
 // src/components/HeroSection.jsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const HeroSection = () => {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL;
-    fetch(`${apiUrl}/home/fetch_images`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.error('Error:', data.error);
-        } else {
-          setImages(data.hero_images || []);
-        }
-      })
-      .catch((error) => console.error('Error:', error));
-  }, []);
+  const images = [
+    `${process.env.PUBLIC_URL}/images/banner_hero.jpg`, 
+    `${process.env.PUBLIC_URL}/images/foto_bankje.jpg`, 
+    `${process.env.PUBLIC_URL}/images/groepsfoto.jpg`, 
+  ];
 
   return (
     <div className="relative bg-white">
@@ -35,19 +25,13 @@ const HeroSection = () => {
           </button>
         </div>
         <div className="w-full md:w-1/2 mt-8 md:mt-0 ms-3">
-          {images.length > 0 ? (
-            <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true} interval={5000} showStatus={false}>
-              {images.map((src, index) => (
-                <div key={index}>
-                  <img src={src} alt="" className="w-full h-full object-cover rounded-lg shadow-lg" />
-                </div>
-              ))}
-            </Carousel>
-          ) : (
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-lg shadow-lg">
-              <span className="text-gray-500">Loading images...</span>
-            </div>
-          )}
+          <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true} interval={5000} showStatus={false}>
+            {images.map((src, index) => (
+              <div key={index}>
+                <img src={src} alt={`Hero slide ${index + 1}`} className="w-full h-full object-cover rounded-lg shadow-lg" />
+              </div>
+            ))}
+          </Carousel>
         </div>
       </div>
     </div>
