@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
                   <p className="text-gray-600 mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
                   <Link to={`/product/${encodeURIComponent(product.id)}`}>
                     <button className="bg-darkgreen text-white px-4 py-2 rounded-lg hover:bg-green transition-colors duration-300">
-                      Koop Nu
+                      Koop nu
                     </button>
                   </Link>
                 </div>
