@@ -17,6 +17,7 @@ const ProductDetail = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [isOutOfStock, setIsOutOfStock] = useState(false);
 
   useEffect(() => {
@@ -45,18 +46,24 @@ const ProductDetail = () => {
       return;
     }
 
-    const variant = product.variants.find(
-      (variant) =>
-        variant.selectedOptions.some(
-          (option) => option.name === "Kleur" && option.value === selectedColor
-        ) &&
-        variant.selectedOptions.some(
-          (option) => option.name === "Maat" && option.value === selectedSize
-        )
-    );
+    let variant;
+
+    if (product.variants.length === 1) {
+      variant = product.variants[0];
+    } else {
+      variant = product.variants.find(
+        (variant) =>
+          variant.selectedOptions.some(
+            (option) => option.name === "Kleur" && option.value === selectedColor
+          ) &&
+          variant.selectedOptions.some(
+            (option) => option.name === "Maat" && option.value === selectedSize
+          )
+      );
+    }
 
     if (variant) {
-      addToCart(variant.id, 1);
+      addToCart(variant.id, quantity);
       setAlertMessage("Toegevoegd aan winkelwagen!");
       openCart();
     } else {
@@ -159,6 +166,19 @@ const ProductDetail = () => {
                   </div>
                 </div>
               )}
+
+              {/* Quantity input field */}
+              <div className="mb-4">
+                <h3 className="text-xl font-semibold mb-2">Aantal</h3>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
+                  className="w-20 px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                  min="1"
+                />
+              </div>
+
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
@@ -178,4 +198,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-  

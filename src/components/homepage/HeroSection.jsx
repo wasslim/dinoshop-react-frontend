@@ -2,8 +2,14 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+  navigate('/about');
+};
   const images = [
     `${process.env.PUBLIC_URL}/images/banner_hero.jpg`, 
     `${process.env.PUBLIC_URL}/images/foto_bankje.jpg`, 
@@ -20,7 +26,7 @@ const HeroSection = () => {
           <p className="text-lg text-gray-600 mb-6">
             Geniet van ons premium assortiment Blonde Tripel bier, vervaardigd met passie en precisie.
           </p>
-          <button className="bg-darkgreen text-white px-6 py-3 rounded-lg hover:bg-green transition-colors duration-300">
+          <button onClick={handleButtonClick} className="bg-darkgreen text-white px-6 py-3 rounded-lg hover:bg-green transition-colors duration-300">
             Ontdek
           </button>
         </div>
