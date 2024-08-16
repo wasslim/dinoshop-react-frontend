@@ -64,7 +64,7 @@ const ContactPage = () => {
                 id="from_name"
                 value={formData.from_name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
                 required
               />
             </div>
@@ -79,7 +79,7 @@ const ContactPage = () => {
                 id="company"
                 value={formData.company}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
               />
             </div>
 
@@ -93,7 +93,7 @@ const ContactPage = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
                 required
               />
             </div>
@@ -108,7 +108,7 @@ const ContactPage = () => {
                 id="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
                 required
               />
             </div>
@@ -122,7 +122,7 @@ const ContactPage = () => {
                 id="message"
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
                 rows="5"
                 required
               ></textarea>
