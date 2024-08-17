@@ -174,7 +174,7 @@ const ProductDetail = () => {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
-                  className="w-20 px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500"
+                  className="w-20 px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white"
                   min="1"
                 />
               </div>
