@@ -27,7 +27,7 @@ const CustomNavbar = () => {
   const logo = `${process.env.PUBLIC_URL}/images/logo.png`;
 
   return (
-    <nav className="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
+    <nav className="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg relative">
       <div className="container mx-auto flex justify-between items-center py-4 relative">
         {/* Left Side: Hamburger Menu + Links */}
         <div className="flex items-center space-x-4">
@@ -50,12 +50,6 @@ const CustomNavbar = () => {
               />
             </svg>
           </button>
-          <div className={`md:flex md:items-center md:space-x-4 ${isMenuOpen ? "block" : "hidden"} md:block`}>
-            <Link to="/" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Home</Link>
-            <Link to="/assortiment" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Assortiment</Link>
-            <Link to="/over-ons" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Over</Link>
-            <Link to="/contact" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Contact</Link>
-          </div>
         </div>
 
         {/* Center: Logo */}
@@ -69,7 +63,8 @@ const CustomNavbar = () => {
           </Link>
         </div>
 
-       <div className="flex items-center space-x-4">
+        {/* Right Side: Cart */}
+        <div className="flex items-center space-x-4">
           <button
             onClick={openCart}
             className="relative flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg text-darkgreen"
@@ -86,6 +81,21 @@ const CustomNavbar = () => {
               {cartQuantity}
             </span>
           </button>
+        </div>
+      </div>
+
+      {/* Dropdown Menu */}
+      <div
+        ref={dropdownRef}
+        className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ${
+          isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        } overflow-hidden`}
+      >
+        <div className="container mx-auto py-4">
+          <Link to="/" className="block text-darkgreen font-bold text-lg py-2 no-underline">Home</Link>
+          <Link to="/assortiment" className="block text-darkgreen font-bold text-lg py-2 no-underline">Assortiment</Link>
+          <Link to="/over-ons" className="block text-darkgreen font-bold text-lg py-2 no-underline">Over</Link>
+          <Link to="/contact" className="block text-darkgreen font-bold text-lg py-2 no-underline">Contact</Link>
         </div>
       </div>
     </nav>
