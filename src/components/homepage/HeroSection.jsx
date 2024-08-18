@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const HeroSection = () => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
-  navigate('/about');
+  navigate('/over-ons');
 };
   const images = [
     `${process.env.PUBLIC_URL}/images/banner_hero.jpg`, 

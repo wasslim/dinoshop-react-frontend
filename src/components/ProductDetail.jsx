@@ -7,9 +7,10 @@ import Alert from './Alert';
 import parse from 'html-react-parser';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { slugify } from "../utilities/slugify";
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { addToCart, openCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,11 +21,17 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isOutOfStock, setIsOutOfStock] = useState(false);
 
+  const [showColorError, setShowColorError] = useState(false);
+  const [showSizeError, setShowSizeError] = useState(false);
+
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const fetchedProduct = await Client.product.fetch(id);
+        const allProducts = await Client.product.fetchAll();
+        const fetchedProduct = allProducts.find(
+        (product) => slugify(product.title) === slug
+      );
         setProduct(fetchedProduct);
 
         const isAvailable = fetchedProduct.variants.some(variant => variant.available);
@@ -38,16 +45,23 @@ const ProductDetail = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [slug]);
 
   const handleAddToCart = () => {
-    if (product.variants.length > 1 && (!selectedColor || !selectedSize)) {
-      setAlertMessage("Selecteer zowel kleur als maat.");
-      return;
+    let valid = true;
+    if (product.variants.length > 1) {
+      if (!selectedColor) {
+        setShowColorError(true);
+        valid = false;
+      }
+      if (!selectedSize) {
+        setShowSizeError(true);
+        valid = false;
+      }
+      if (!valid) return;
     }
 
     let variant;
-
     if (product.variants.length === 1) {
       variant = product.variants[0];
     } else {
@@ -69,6 +83,16 @@ const ProductDetail = () => {
     } else {
       setAlertMessage("De gekozen combinatie is niet beschikbaar. Kies een andere maat of kleur.");
     }
+  };
+
+  const handleColorClick = useCallback((color) => {
+    setSelectedColor((prevColor) => (prevColor === color ? "" : color));
+    setShowColorError(false);
+  }, []);
+
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
+    setShowSizeError(false);
   };
 
   const colorMap = {
@@ -96,10 +120,6 @@ const ProductDetail = () => {
   const filteredImages = selectedColor
     ? product?.images.filter(image => image.src.toLowerCase().includes(selectedColor.toLowerCase()))
     : product?.images;
-
-  const handleColorClick = useCallback((color) => {
-    setSelectedColor((prevColor) => (prevColor === color ? "" : color));
-  }, []);
 
   if (loading) return <div>Product wordt geladen...</div>;
   if (error) return <div>Fout: {error}</div>;
@@ -146,6 +166,9 @@ const ProductDetail = () => {
                       ></button>
                     ))}
                   </div>
+                  {showColorError && (
+                    <span className="text-red-500 text-sm mt-2">Selecteer een kleur.</span>
+                  )}
                 </div>
               )}
               {sizes.length > 0 && (
@@ -155,7 +178,7 @@ const ProductDetail = () => {
                     {sizes.map((size) => (
                       <button
                         key={size}
-                        onClick={() => setSelectedSize(size)}
+                        onClick={() => handleSizeClick(size)}
                         className={`px-4 py-2 rounded-lg border-2 ${
                           selectedSize === size ? "border-darkgreen" : "border-gray-300"
                         }`}
@@ -164,6 +187,9 @@ const ProductDetail = () => {
                       </button>
                     ))}
                   </div>
+                  {showSizeError && (
+                    <span className="text-red-500 text-sm mt-2">Selecteer een maat.</span>
+                  )}
                 </div>
               )}
 

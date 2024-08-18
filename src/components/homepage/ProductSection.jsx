@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import client from '../../shopifyConfig';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../../utilities/formatCurrency';
+import { slugify } from '../../utilities/slugify';
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -28,8 +29,8 @@ const FeaturedProducts = () => {
                 <div className="p-6 text-center">
                   <h3 className="text-gray-900 font-bold text-xl mb-2">{product.title}</h3>
                   <p className="text-gray-600 mb-4">{formatCurrency(product.variants[0].price.amount)}</p>
-                  <Link to={`/product/${encodeURIComponent(product.id)}`}>
-                    <button className="bg-darkgreen text-white px-4 py-2 rounded-lg hover:bg-green transition-colors duration-300">
+                  <Link to={`/product/${slugify(product.title)}`}>
+                    <button className="bg-darkgreen text-white py-2 px-4 rounded hover:bg-green transition-colors duration-200">
                       Koop nu
                     </button>
                   </Link>

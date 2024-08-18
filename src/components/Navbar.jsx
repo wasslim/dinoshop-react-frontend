@@ -28,8 +28,8 @@ const CustomNavbar = () => {
       <div className="container mx-auto flex justify-between items-center py-4 relative">
         <div className="flex items-center space-x-4">
           <Link to="/" className="text-darkgreen font-bold text-lg">Home</Link>
-          <Link to="/products" className="text-darkgreen font-bold text-lg">Assortiment</Link>
-          <Link to="/about" className="text-darkgreen font-bold text-lg">Over</Link>
+          <Link to="/assortiment" className="text-darkgreen font-bold text-lg">Assortiment</Link>
+          <Link to="/over-ons" className="text-darkgreen font-bold text-lg">Over</Link>
           <Link to="/contact" className="text-darkgreen font-bold text-lg">Contact</Link>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import client from "../shopifyConfig";
 import { formatCurrency } from "../utilities/formatCurrency";
 import { Link } from "react-router-dom";
+import { slugify } from "../utilities/slugify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -37,11 +38,11 @@ const Products = () => {
                     )}
                   </div>
                   <div className="p-6 text-center">
-                    <Link to={`/product/${encodeURIComponent(product.id)}`}>
-                      <button className="bg-darkgreen text-white py-2 px-4 rounded hover:bg-green transition-colors duration-200">
-                        Koop nu
-                      </button>
-                    </Link>
+                  <Link to={`/product/${slugify(product.title)}`}>
+                    <button className="bg-darkgreen text-white py-2 px-4 rounded hover:bg-green transition-colors duration-200">
+                      Koop nu
+                    </button>
+                  </Link>
                   </div>
                 </div>
               </div>

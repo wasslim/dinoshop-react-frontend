@@ -9,7 +9,7 @@ const About = () => {
   const imageUrl = `${process.env.PUBLIC_URL}/images/groepsfoto.jpg`; 
 
   const handleButtonClick = () => {
-    navigate('/products');
+    navigate('/assortiment');
   };
 
   return (
