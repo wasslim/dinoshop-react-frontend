@@ -2,15 +2,18 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 
-
 const CustomNavbar = () => {
   const { openCart, cartQuantity } = useCart();
-  const [setDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleDocumentClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
+      setIsMenuOpen(false);
     }
   };
 
@@ -21,27 +24,52 @@ const CustomNavbar = () => {
     };
   });
 
-  const logo = `${process.env.PUBLIC_URL}/images/logo.png`; 
+  const logo = `${process.env.PUBLIC_URL}/images/logo.png`;
 
   return (
     <nav className="bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 relative">
+        {/* Left Side: Hamburger Menu + Links */}
         <div className="flex items-center space-x-4">
-          <Link to="/" className="text-darkgreen font-bold text-lg">Home</Link>
-          <Link to="/assortiment" className="text-darkgreen font-bold text-lg">Assortiment</Link>
-          <Link to="/over-ons" className="text-darkgreen font-bold text-lg">Over</Link>
-          <Link to="/contact" className="text-darkgreen font-bold text-lg">Contact</Link>
+          <button
+            onClick={toggleMenu}
+            className="block md:hidden text-darkgreen focus:outline-none"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
+          <div className={`md:flex md:items-center md:space-x-4 ${isMenuOpen ? "block" : "hidden"} md:block`}>
+            <Link to="/" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Home</Link>
+            <Link to="/assortiment" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Assortiment</Link>
+            <Link to="/over-ons" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Over</Link>
+            <Link to="/contact" className="block text-darkgreen font-bold text-lg py-2 md:py-0 no-underline">Contact</Link>
+          </div>
         </div>
+
+        {/* Center: Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="flex justify-center">
             <img
               src={logo}
               alt="Logo"
-              className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110 hidden md:block"
+              className="h-12 rounded-full shadow-lg transition-transform transform hover:scale-110"
             />
           </Link>
         </div>
-        <div className="flex items-center space-x-4">
+
+       <div className="flex items-center space-x-4">
           <button
             onClick={openCart}
             className="relative flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg text-darkgreen"
