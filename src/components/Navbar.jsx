@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
-import "./NavbarStyles.scss"; // Assuming you imported the new SCSS styles
 
 const CustomNavbar = () => {
   const { openCart, cartQuantity } = useCart();
