@@ -139,9 +139,6 @@ const ProductDetail = () => {
         </div>
         <div className="p-6 bg-white rounded-lg shadow-lg">
           <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
-          <div className="text-lg mb-4">
-            {parse(product.descriptionHtml || product.description)}
-          </div>
           <p className="text-2xl font-bold mb-4 text-green-500">
             {formatCurrency(product.variants[0].price.amount)}
           </p>
@@ -209,7 +206,7 @@ const ProductDetail = () => {
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
                 style={{ backgroundColor: isOutOfStock ? "#ccc" : "#274c02" }}
-                className={`text-white px-6 py-3 rounded-lg shadow-lg transition-colors ${
+                className={`text-white px-6 py-3 rounded-lg shadow-lg transition-colors mb-10 ${
                   isOutOfStock ? "cursor-not-allowed" : ""
                 }`}
               >
@@ -217,6 +214,10 @@ const ProductDetail = () => {
               </button>
             </>
           )}
+          <div className="text-lg mb-4">
+            {parse(product.descriptionHtml || product.description)}
+          </div>
+          
         </div>
       </div>
     </div>
