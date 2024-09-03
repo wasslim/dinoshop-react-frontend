@@ -20,10 +20,6 @@ const CustomCookieBanner = () => {
     setIsAgeVerificationVisible(true);
   };
 
-  const handleRejectAll = () => {
-    localStorage.setItem('cookieConsent', 'rejected');
-    setIsBannerVisible(false);
-  };
 
   const handleAgeConfirm = () => {
     localStorage.setItem('ageConfirmed', 'true');
@@ -48,9 +44,6 @@ const CustomCookieBanner = () => {
             <div className="flex justify-center space-x-4">
               <button onClick={handleAcceptAll} className="bg-[#463e39] text-white px-4 py-2 rounded">
                 Accepteren
-              </button>
-              <button onClick={handleRejectAll} className="bg-[#463e39] text-white px-4 py-2 rounded">
-                Afwijzen
               </button>
             </div>
           </div>
